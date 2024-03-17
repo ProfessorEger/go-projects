@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-func print_game(field [][]Cell, ptr_massage *string) {
-	print_field(field)
-	fmt.Println(*ptr_massage)
-	*ptr_massage = ""
+func printGame(field [][]Cell, ptrMessage *string) {
+	printField(field)
+	fmt.Println(*ptrMessage)
+	*ptrMessage = ""
 }
 
-func print_field(field [][]Cell) {
+func printField(field [][]Cell) {
 
 	for j := 0; j <= len(field[0])*2; j++ {
 		for i := 0; i <= len(field)*2; i++ {
@@ -43,21 +43,21 @@ func print_field(field [][]Cell) {
 			} else if j%2 == 0 {
 				fmt.Print("─")
 			} else if i%2 == 1 && j%2 == 1 {
-				print_cell(field[(i-1)/2][(j-1)/2])
+				printCell(field[(i-1)/2][(j-1)/2])
 			}
 		}
 		fmt.Print("\n")
 	}
 }
 
-func print_cell(cell Cell) {
-	var cell_contents string
+func printCell(cell Cell) {
+	var cellContents string
 
-	if cell.visited {
-		cell_contents = fmt.Sprintf("%s%s%c%s", COLOR_BOLD, cell.color, cell.symbol, COLOR_RESET)
+	if cell.visible {
+		cellContents = fmt.Sprintf("%s%s%s%s", config.ColorBold, cell.color, cell.symbol, config.ColorReset)
 	} else {
-		cell_contents = " "
+		cellContents = " "
 	}
 
-	fmt.Print(cell_contents)
+	fmt.Print(cellContents)
 }

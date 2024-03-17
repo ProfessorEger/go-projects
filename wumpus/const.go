@@ -1,5 +1,7 @@
 package main
 
+import "wumpus/configreader"
+
 const (
 	EMPTY = iota
 	PLAYER
@@ -11,18 +13,19 @@ const (
 type Player struct {
 	position [2]int
 	armed    int
+	symbol   string
 }
 
 type Cell struct {
 	object  int
-	symbol  rune
-	visited bool
+	symbol  string
+	visible bool
 	color   string
 }
 
 type Action struct {
-	action_type int
-	direction   int
+	ActionType int
+	Direction  int
 }
 
 // action_type
@@ -39,7 +42,7 @@ const (
 	LEFT
 )
 
-const (
+/*const (
 	EMPTY_SYMBOL  = '·'
 	PLAYER_SYMBOL = '□'
 	HOLE_SYMBOL   = '⬤'
@@ -54,4 +57,6 @@ const (
 
 	COLOR_BOLD  = "\033[1m"
 	COLOR_RESET = "\033[0m"
-)
+)*/
+
+var config configreader.Config
