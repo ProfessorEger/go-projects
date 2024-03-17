@@ -2,9 +2,10 @@ package main
 
 import "fmt"
 
-func print_game(field [][]Cell, massage string) {
+func print_game(field [][]Cell, ptr_massage *string) {
 	print_field(field)
-	fmt.Println(massage)
+	fmt.Println(*ptr_massage)
+	*ptr_massage = ""
 }
 
 func print_field(field [][]Cell) {

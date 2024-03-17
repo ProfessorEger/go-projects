@@ -25,11 +25,13 @@ type Action struct {
 	direction   int
 }
 
+// action_type
 const (
 	MOVE = iota
 	SHOT
 )
 
+// direction
 const (
 	UP = iota
 	RIGHT

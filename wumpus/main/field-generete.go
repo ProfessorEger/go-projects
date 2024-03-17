@@ -2,11 +2,9 @@ package main
 
 import (
 	"math/rand"
-	"time"
 )
 
 func generate_field(size_x, size_y int) (field [][]Cell, player Player) {
-	rand.Seed(time.Now().UnixNano())
 	// Генерация случайного размера, если в функцию передали 0
 	const MIN_FIELD_SIZE = 4
 	const MAX_FIELD_SIZE = 8
@@ -31,7 +29,7 @@ func generate_field(size_x, size_y int) (field [][]Cell, player Player) {
 
 // Расстановка препятствий и игрока
 func arrange_objects(field [][]Cell) (player_position [2]int) {
-	fill_empty(field)
+	//fill_empty(field)
 	player_position = put_object(field, PLAYER, PLAYER_SYMBOL)
 	put_object(field, WUMPUS, WUMPUS_SYMBOL)
 	put_object(field, GUN, GUN_SYMBOL)
@@ -44,9 +42,9 @@ func fill_empty(field [][]Cell) {
 	for i := 0; i < len(field); i++ {
 		for j := 0; j < len(field[i]); j++ {
 			field[i][j] = Cell{
-				object:  EMPTY, //temp
+				object:  EMPTY,
 				symbol:  EMPTY_SYMBOL,
-				visited: true, //temp
+				visited: true,
 			}
 		}
 	}
@@ -59,9 +57,9 @@ func put_hole(field [][]Cell) {
 		for j := 0; j < len(field[i]); j++ {
 			if field[i][j].object == 0 && rand.Float64() < CHANCE_HOLE {
 				field[i][j] = Cell{
-					object:  HOLE,
-					symbol:  HOLE_SYMBOL,
-					visited: true, //temp
+					object: HOLE,
+					symbol: HOLE_SYMBOL,
+					//visited: true, //temp
 				}
 			}
 		}
@@ -75,9 +73,9 @@ func put_object(field [][]Cell, object_type int, object_symbol rune) (position [
 
 		if field[position[0]][position[1]].object == 0 {
 			field[position[0]][position[1]] = Cell{
-				object:  object_type,
-				symbol:  object_symbol,
-				visited: true, // temp
+				object: object_type,
+				symbol: object_symbol,
+				//visited: true, // temp
 			}
 			break
 		}
