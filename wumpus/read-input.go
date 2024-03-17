@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/eiannone/keyboard"
 )
 
@@ -13,16 +15,24 @@ func StopReadInput() {
 	keyboard.Close()
 }
 
-func GetAction(canShot bool, QUICK_INPUT bool) (action Action) {
-
-	if QUICK_INPUT {
-		action = quickGetAction(canShot)
+func WaitInput(quickInput bool) {
+	if quickInput {
+		keyboard.GetKey()
 	} else {
-		action = standardGetAction(canShot)
+		fmt.Scanln()
+	}
+}
+
+func GetAction(canShot bool, quickInput bool) (action Action, stopGame bool) {
+
+	if quickInput {
+		action, stopGame = quickGetAction(canShot)
+	} else {
+		action, stopGame = standardGetAction(canShot)
 	}
 	return
 }
-func quickGetAction(canShot bool) (action Action) {
+func quickGetAction(canShot bool) (action Action, stopGame bool) {
 	action.ActionType = MOVE
 
 WaitForInput:
@@ -30,6 +40,11 @@ WaitForInput:
 		char, key, err := keyboard.GetKey()
 		if err != nil {
 			panic(err)
+		}
+
+		if key == keyboard.KeyCtrlQ || key == keyboard.KeyCtrlC {
+			stopGame = true
+			break WaitForInput
 		}
 
 		switch char {
@@ -72,6 +87,6 @@ WaitForInput:
 	return
 }
 
-func standardGetAction(canShot bool) (action Action) {
+func standardGetAction(canShot bool) (action Action, stopGame bool) {
 	return
 }

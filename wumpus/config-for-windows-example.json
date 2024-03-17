@@ -1,0 +1,20 @@
+{
+    "EmptySymbol": " ",
+    "EmptyVisitedSymbol": "·",
+    "PlayerSymbol": "□",
+    "ArmedPlayerSymbol": "■",
+    "HoleSymbol": "⬤",
+    "WumpusSymbol": "☠",
+    "GunSymbol": "➽",
+    "WindColor": "",
+    "SmellColor": "",
+    "SmellAndWindColor": "",
+    "ColorBold": "",
+    "ColorReset": "",
+    "MinFieldSize": 4,
+    "MaxFieldSize": 8,
+    "ChanceHole": 0.15,
+    "QuickInput": true,
+    "LastPrintDelay": true
+  }
+  

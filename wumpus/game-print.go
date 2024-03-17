@@ -1,63 +1,82 @@
 package main
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+	"os"
+	"os/exec"
+	"runtime"
+)
 
 func printGame(field [][]Cell, ptrMessage *string) {
-	printField(field)
-	fmt.Println(*ptrMessage)
+
+	var buffer bytes.Buffer
+
+	addFieldToBuffer(field, &buffer)
+	buffer.WriteString(*ptrMessage)
+	ClearConsole()
+	fmt.Println(buffer.String())
 	*ptrMessage = ""
 }
 
-func printField(field [][]Cell) {
+func addFieldToBuffer(field [][]Cell, ptrBuffer *bytes.Buffer) {
 
 	for j := 0; j <= len(field[0])*2; j++ {
 		for i := 0; i <= len(field)*2; i++ {
 			if i == 0 && j == 0 {
-				fmt.Print("  ┌─")
+				ptrBuffer.WriteString("  ┌─")
 			} else if i == 0 && j == len(field[0])*2 {
-				fmt.Print("  └─")
+				ptrBuffer.WriteString("  └─")
 			} else if i == len(field)*2 && j == 0 {
-				fmt.Print("─┐")
+				ptrBuffer.WriteString("─┐")
 			} else if i == len(field)*2 && j == len(field[0])*2 {
-				fmt.Print("─┘")
+				ptrBuffer.WriteString("─┘")
 			} else if i == 0 && j%2 == 0 {
-				fmt.Print("  ├─")
+				ptrBuffer.WriteString("  ├─")
 			} else if i%2 == 0 && j == 0 {
-				fmt.Print("─┬─")
+				ptrBuffer.WriteString("─┬─")
 			} else if i == len(field)*2 && j%2 == 0 {
-				fmt.Print("─┤")
+				ptrBuffer.WriteString("─┤")
 			} else if i%2 == 0 && j == len(field[0])*2 {
-				fmt.Print("─┴─")
+				ptrBuffer.WriteString("─┴─")
 			} else if i%2 == 0 && j%2 == 0 {
-				fmt.Print("─┼─")
+				ptrBuffer.WriteString("─┼─")
 			} else if i == 0 {
-				fmt.Print("  │ ")
+				ptrBuffer.WriteString("  │ ")
 			} else if j == 0 {
-				fmt.Print("─")
+				ptrBuffer.WriteString("─")
 			} else if i == len(field)*2 {
-				fmt.Print(" │")
+				ptrBuffer.WriteString(" │")
 			} else if j == len(field[0])*2 {
-				fmt.Print("─")
+				ptrBuffer.WriteString("─")
 			} else if i%2 == 0 {
-				fmt.Print(" │ ")
+				ptrBuffer.WriteString(" │ ")
 			} else if j%2 == 0 {
-				fmt.Print("─")
+				ptrBuffer.WriteString("─")
 			} else if i%2 == 1 && j%2 == 1 {
-				printCell(field[(i-1)/2][(j-1)/2])
+				addCellToBuffer(field[(i-1)/2][(j-1)/2], ptrBuffer)
 			}
 		}
-		fmt.Print("\n")
+		ptrBuffer.WriteString("\n")
+	}
+
+}
+
+func addCellToBuffer(cell Cell, ptrBuffer *bytes.Buffer) {
+	if cell.visible {
+		ptrBuffer.WriteString(fmt.Sprintf("%s%s%s%s", config.ColorBold, cell.color, cell.symbol, config.ColorReset))
+	} else {
+		ptrBuffer.WriteString(" ")
 	}
 }
 
-func printCell(cell Cell) {
-	var cellContents string
-
-	if cell.visible {
-		cellContents = fmt.Sprintf("%s%s%s%s", config.ColorBold, cell.color, cell.symbol, config.ColorReset)
+func ClearConsole() {
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "cls")
 	} else {
-		cellContents = " "
+		cmd = exec.Command("clear")
 	}
-
-	fmt.Print(cellContents)
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }

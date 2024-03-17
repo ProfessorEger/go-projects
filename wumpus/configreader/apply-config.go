@@ -27,6 +27,8 @@ type Config struct {
 	ChanceHole float64
 
 	QuickInput bool
+
+	LastPrintDelay bool
 }
 
 func LoadConstantsFromFile(filename string) (config *Config, err error) {
@@ -68,5 +70,7 @@ func newConfig() *Config {
 		MaxFieldSize: 8,
 
 		ChanceHole: 0.15,
+
+		LastPrintDelay: true,
 	}
 }

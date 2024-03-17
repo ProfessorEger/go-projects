@@ -26,7 +26,12 @@ func startField() (stopGame bool) {
 	printGame(field, &message)
 
 	for {
-		action := GetAction(player.armed > 0, config.QuickInput)
+		var action Action
+		action, stopGame = GetAction(player.armed > 0, config.QuickInput)
+		if stopGame {
+			ClearConsole()
+			return
+		}
 		stopGame = calculateAction(field, &player, action, &message)
 
 		if stopGame {
@@ -37,5 +42,9 @@ func startField() (stopGame bool) {
 		printGame(field, &message)
 	}
 	printGame(field, &message)
+
+	if config.LastPrintDelay {
+		WaitInput(config.QuickInput)
+	}
 	return
 }
